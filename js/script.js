@@ -1,276 +1,269 @@
-// toggle icon navbar
+document.addEventListener("DOMContentLoaded", function () {
+  let menuIcon = document.querySelector("#menu-icon");
+  let navbar = document.querySelector(".navbar");
+  const navLinks = document.querySelectorAll(".navbar a");
+  const sections = document.querySelectorAll("section");
 
-let menuIcon = document.querySelector("#menu-icon");
-let navbar = document.querySelector(".navbar");
+  // Toggle menu open/close
+  menuIcon.onclick = () => {
+    menuIcon.classList.toggle("bx-x");
+    menuIcon.classList.toggle("bx-menu");
+    navbar.classList.toggle("active");
+    if (navbar.classList.contains("active")) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  };
 
-menuIcon.onclick = () => {
-  menuIcon.classList.toggle("bx-x");
-  navbar.classList.toggle("active");
-};
+  // Close menu when clicking a nav link
+  document.querySelectorAll('.navbar a').forEach(link => {
+    link.addEventListener('click', function () {
+      menuIcon.classList.remove("bx-x");
+      menuIcon.classList.add("bx-menu");
+      navbar.classList.remove("active");
+      document.body.style.overflow = "auto";
+    });
+  });
 
-// scroll sections active link
-
-let sections = document.querySelectorAll("section");
-let navLinks = document.querySelectorAll("header nav a");
-
-window.onscroll = () => {
-  sections.forEach((sec) => {
-    let top = window.scrollY;
-    let offset = sec.offsetTop - 150;
-    let height = sec.offsetHeight;
-    let id = sec.getAttribute("id");
-
-    if (top >= offset && top < offset + height) {
-      navLinks.forEach((links) => {
-        links.classList.remove("active");
-        document
-          .querySelector("header nav a[href*=" + id + "]")
-          .classList.add("active");
-      });
+  // Close menu on scroll
+  window.addEventListener('scroll', () => {
+    if (navbar.classList.contains('active')) {
+      menuIcon.classList.remove("bx-x");
+      menuIcon.classList.add("bx-menu");
+      navbar.classList.remove("active");
+      document.body.style.overflow = "auto";
     }
   });
 
-  // Sticky navbar
-  let header = document.querySelector("header");
-  header.classList.toggle("sticky", window.scrollY > 100);
-
-  // Only close mobile menu on scroll if it is open
-  if (navbar.classList.contains('active')) {
-    menuIcon.classList.remove("bx-x");
-    navbar.classList.remove("active");
-  }
-};
-
-// Only close mobile menu when clicking on a link
-navLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    menuIcon.classList.remove("bx-x");
-    navbar.classList.remove("active");
+  // Smooth scroll and close menu on link click
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+      const target = document.querySelector(this.getAttribute("href"));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        closeMenu(); // Close menu after clicking link
+      }
+    });
   });
-});
 
-//scroll reveal with enhanced configuration
+  // Highlight nav link on scroll
+  window.addEventListener("scroll", () => {
+    let scrollY = window.scrollY;
 
-ScrollReveal({
-  reset: false,
-  distance: "80px",
-  duration: 2000,
-  delay: 200,
-  easing: "ease-in-out",
-  interval: 200
-});
+    sections.forEach((section) => {
+      let offsetTop = section.offsetTop - 150;
+      let sectionHeight = section.offsetHeight;
+      let id = section.getAttribute("id");
 
-ScrollReveal().reveal(".home-content, .heading", { 
-  origin: "top",
-  scale: 0.9,
-  opacity: 0
-});
-ScrollReveal().reveal(
-  ".home-img, .skills-container, .portfolio-box, .contact form", 
-  { 
-    origin: "bottom",
+      if (scrollY >= offsetTop && scrollY < offsetTop + sectionHeight) {
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+        });
+        const activeLink = document.querySelector(`.navbar a[href*="${id}"]`);
+        if (activeLink) activeLink.classList.add("active");
+      }
+    });
+
+    // Sticky navbar
+    const header = document.querySelector("header");
+    header.classList.toggle("sticky", scrollY > 100);
+
+    // Close menu on scroll (for mobile)
+    if (navbar.classList.contains("active")) {
+      closeMenu();
+    }
+  });
+
+  function closeMenu() {
+    menuIcon.classList.remove("bx-x");
+    menuIcon.classList.add("bx-menu");
+    navbar.classList.remove("active");
+    document.body.style.overflow = "auto";
+  }
+
+  // Typed.js animation
+  new Typed(".multiple-text", {
+    strings: [
+      "Full-Stack Developer",
+      "AI/ML Engineer",
+      "Cybersecurity Specialist",
+      "Software Engineer",
+      "Problem Solver",
+      "Tech Enthusiast",
+      "Continuous Learner",
+    ],
+    typeSpeed: 100,
+    backSpeed: 100,
+    backDelay: 1000,
+    loop: true,
+    cursorChar: "|",
+  });
+
+  // ScrollReveal animations
+  ScrollReveal({
+    reset: false,
+    distance: "80px",
+    duration: 2000,
+    delay: 200,
+    easing: "ease-in-out",
+    interval: 200,
+  });
+
+  ScrollReveal().reveal(".home-content, .heading", {
+    origin: "top",
     scale: 0.9,
-    opacity: 0
-  }
-);
-ScrollReveal().reveal(".home-content h1, .about-img, .logo", {
-  origin: "left",
-  scale: 0.9,
-  opacity: 0
-});
-ScrollReveal().reveal(".home-content p, .about-content, .navbar", {
-  origin: "right",
-  scale: 0.9,
-  opacity: 0
-});
+    opacity: 0,
+  });
+  ScrollReveal().reveal(
+    ".home-img, .skills-container, .portfolio-box, .contact form",
+    {
+      origin: "bottom",
+      scale: 0.9,
+      opacity: 0,
+    }
+  );
+  ScrollReveal().reveal(".home-content h1, .about-img, .logo", {
+    origin: "left",
+    scale: 0.9,
+    opacity: 0,
+  });
+  ScrollReveal().reveal(".home-content p, .about-content, .navbar", {
+    origin: "right",
+    scale: 0.9,
+    opacity: 0,
+  });
 
-// Enhanced typed js with more professional titles
+  // Portfolio filter
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const portfolioItems = document.querySelectorAll(".portfolio-box");
 
-const typed = new Typed(".multiple-text", {
-  strings: [
-    "Full-Stack Developer",
-    "AI/ML Engineer",
-    "Cybersecurity Specialist",
-    "Software Engineer",
-    "Problem Solver",
-    "Tech Enthusiast",
-    "Continuous Learner"
-  ],
-  typeSpeed: 100,
-  backSpeed: 100,
-  backDelay: 1000,
-  loop: true,
-  cursorChar: '|'
-});
-
-// Add loading animation
-window.addEventListener('load', () => {
-  const loader = document.querySelector('.loader');
-  if (loader) {
-    loader.style.opacity = '0';
-    setTimeout(() => {
-      loader.style.display = 'none';
-    }, 500);
-  }
-});
-
-// Add smooth scrolling for all internal links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const filterValue = button.getAttribute("data-filter");
+      filterButtons.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+      portfolioItems.forEach((item) => {
+        item.style.display =
+          filterValue === "all" ||
+          item.getAttribute("data-category") === filterValue
+            ? "block"
+            : "none";
       });
-    }
-  });
-});
-
-// Add portfolio filter functionality
-const filterButtons = document.querySelectorAll('.filter-btn');
-const portfolioItems = document.querySelectorAll('.portfolio-box');
-
-filterButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const filterValue = button.getAttribute('data-filter');
-    
-    // Remove active class from all buttons
-    filterButtons.forEach(btn => btn.classList.remove('active'));
-    // Add active class to clicked button
-    button.classList.add('active');
-    
-    portfolioItems.forEach(item => {
-      if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-        item.style.display = 'block';
-        item.style.animation = 'fadeIn 0.5s ease-in-out';
-      } else {
-        item.style.display = 'none';
-      }
     });
   });
-});
 
-// Add form validation and submission with notification
-const contactForm = document.querySelector('.contact form');
-if (contactForm) {
-  contactForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    // Remove any existing notification
-    const oldNotif = this.querySelector('.form-notification');
-    if (oldNotif) oldNotif.remove();
-
-    // Basic form validation
-    const inputs = this.querySelectorAll('input, textarea');
-    let isValid = true;
-    inputs.forEach(input => {
-      if (input.hasAttribute('required') && !input.value.trim()) {
-        isValid = false;
-        input.style.borderColor = '#ff4444';
-      } else {
-        input.style.borderColor = '';
-      }
-    });
-
-    const notif = document.createElement('div');
-    notif.className = 'form-notification';
-    notif.style.cssText = `
-      background: #222c36;
-      color: #fff;
-      padding: 1rem 2rem;
-      border-radius: 0.5rem;
-      margin-top: 1rem;
-      text-align: center;
-      font-size: 1.5rem;
-      box-shadow: 0 2px 12px 0 rgba(14,255,255,0.08);
-      border: 2px solid #0ef;
-      animation: slideIn 0.5s ease;
-    `;
-
-    if (!isValid) {
-      notif.textContent = 'Please fill in all required fields.';
-      notif.style.background = '#ff4444';
-      notif.style.borderColor = '#ff4444';
-      this.appendChild(notif);
-      return;
-    }
-
-    // Prepare form data
-    const formData = new FormData(this);
-    try {
-      const response = await fetch(this.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
+  // Contact form submission
+  const contactForm = document.querySelector(".contact form");
+  if (contactForm) {
+    contactForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const inputs = this.querySelectorAll("input, textarea");
+      let isValid = true;
+      inputs.forEach((input) => {
+        if (input.hasAttribute("required") && !input.value.trim()) {
+          isValid = false;
+          input.style.borderColor = "#ff4444";
+        } else {
+          input.style.borderColor = "";
         }
       });
-      if (response.ok) {
-        notif.textContent = 'Message sent successfully!';
-        notif.style.background = '#4CAF50';
-        notif.style.borderColor = '#4CAF50';
+
+      const notif = document.createElement("div");
+      notif.className = "form-notification";
+      notif.style.cssText = `
+        background: #222c36;
+        color: #fff;
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        margin-top: 1rem;
+        text-align: center;
+        font-size: 1.5rem;
+        box-shadow: 0 2px 12px rgba(14,255,255,0.08);
+        border: 2px solid #0ef;
+        animation: slideIn 0.5s ease;
+      `;
+
+      const oldNotif = this.querySelector(".form-notification");
+      if (oldNotif) oldNotif.remove();
+
+      if (!isValid) {
+        notif.textContent = "Please fill in all required fields.";
+        notif.style.background = "#ff4444";
+        notif.style.borderColor = "#ff4444";
         this.appendChild(notif);
-        this.reset();
-      } else {
-        notif.textContent = 'Failed to send message. Please try again.';
-        notif.style.background = '#ff4444';
-        notif.style.borderColor = '#ff4444';
+        return;
+      }
+
+      const formData = new FormData(this);
+      try {
+        const response = await fetch(this.action, {
+          method: "POST",
+          body: formData,
+          headers: { Accept: "application/json" },
+        });
+        notif.textContent = response.ok
+          ? "Message sent successfully!"
+          : "Failed to send message. Please try again.";
+        notif.style.background = response.ok ? "#4CAF50" : "#ff4444";
+        notif.style.borderColor = notif.style.background;
+        this.appendChild(notif);
+        if (response.ok) this.reset();
+      } catch (error) {
+        console.error(error);
+        notif.textContent = "Failed to send message. Please try again.";
+        notif.style.background = "#ff4444";
+        notif.style.borderColor = "#ff4444";
         this.appendChild(notif);
       }
-    } catch (error) {
-      notif.textContent = 'Failed to send message. Please try again.';
-      notif.style.background = '#ff4444';
-      notif.style.borderColor = '#ff4444';
-      this.appendChild(notif);
-    }
-    setTimeout(() => {
-      notif.remove();
-    }, 4000);
-  });
-}
-
-// Add scroll to top functionality with smooth animation
-const scrollToTopBtn = document.querySelector('.footer-iconTop a');
-if (scrollToTopBtn) {
-  scrollToTopBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+      setTimeout(() => notif.remove(), 4000);
     });
-  });
-}
+  }
 
-// Add parallax effect to home section
-window.addEventListener('scroll', () => {
-  const scrolled = window.pageYOffset;
-  const homeSection = document.querySelector('.home');
-  if (homeSection) {
-    const rate = scrolled * -0.5;
-    homeSection.style.transform = `translateY(${rate}px)`;
+  // Loader
+  window.addEventListener("load", () => {
+    const loader = document.querySelector(".loader");
+    if (loader) {
+      loader.style.opacity = "0";
+      setTimeout(() => (loader.style.display = "none"), 500);
+    }
+  });
+
+  // Parallax scroll effect
+  window.addEventListener("scroll", () => {
+    const home = document.querySelector(".home");
+    if (home) {
+      const rate = window.pageYOffset * -0.5;
+      home.style.transform = `translateY(${rate}px)`;
+    }
+  });
+
+  // Skills animation on intersection
+  const skillsSection = document.querySelector(".skills");
+  const skillBars = document.querySelectorAll(".skill-progress");
+
+  if (skillsSection && skillBars.length) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          skillBars.forEach((bar) => {
+            const progress = bar.getAttribute("data-progress");
+            bar.style.width = progress + "%";
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+    observer.observe(skillsSection);
+  }
+
+  // Scroll to top button
+  const scrollToTopBtn = document.querySelector(".footer-iconTop a");
+  if (scrollToTopBtn) {
+    scrollToTopBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
   }
 });
-
-// Add skill progress animation
-const skillBars = document.querySelectorAll('.skill-progress');
-const animateSkills = () => {
-  skillBars.forEach(bar => {
-    const progress = bar.getAttribute('data-progress');
-    bar.style.width = progress + '%';
-  });
-};
-
-// Trigger skill animation when skills section is in view
-const skillsSection = document.querySelector('.skills');
-if (skillsSection) {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateSkills();
-        observer.unobserve(entry.target);
-      }
-    });
-  });
-  observer.observe(skillsSection);
-}
