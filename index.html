@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
+    <!-- Loading Animation -->
+    <div class="loader"></div>
+
     <!-- header design -->
     <header class="header">
       <a href="#" class="logo">Jeeva<span>n</span>.</a>
@@ -37,7 +40,7 @@
         <h3>And I'm a <span class="multiple-text"></span></h3>
         <p>
           Full-stack developer skilled in AI automation, cybersecurity, and
-          building scalable, secure solutions.
+          building scalable, secure solutions. 
         </p>
         <div class="social-media">
           <a
@@ -77,13 +80,13 @@
           ></a>
         </div>
         <a
-          href="https://drive.usercontent.google.com/u/0/uc?id=1zGHJ2r5krFO8GVq5vuZbEGHmb2MpLPDs&export=download"
+          href="https://drive.usercontent.google.com/u/0/uc?id=1dac3mNBftJFK8zit--ymPc5oLXxQZKqn&export=download"
           class="btn"
           >Download CV</a
         >
       </div>
       <div class="home-img">
-        <img src="img/img1.png" alt="" />
+        <img src="img/imga1.png" alt="" />
       </div>
     </section>
 
@@ -116,7 +119,8 @@
             Learning, Cybersecurity
           </li>
         </ul>
-        <a href="#" class="btn">Read More</a>
+        <a href="https://bit.ly/Jeevanrresume" target="_blank"
+              rel="noopener" class="btn">Read More</a>
       </div>
     </section>
 
@@ -125,18 +129,18 @@
       <h2 class="heading">Technical <span>Skills</span></h2>
 
       <div class="skills-container">
-        <!-- <div class="skills-box">
-          <i class="bx bxl-java"></i>
-          <-- Icon for Programming Languages 
+        <div class="skills-box">
+          <i class="bx bx-code-alt"></i>
+          <!-- Icon for Programming Languages -->
           <h3>Programming Languages</h3>
           <ul>
-            <-- Using a list for skills 
             <li>Java</li>
             <li>Python</li>
             <li>C</li>
+            <li>C++</li>
             <li>SQL</li>
           </ul>
-        </div> -->
+        </div>
 
         <div class="skills-box">
           <i class="bx bx-globe"></i>
@@ -183,8 +187,44 @@
     <section class="portfolio" id="portfolio">
       <h2 class="heading">Latest <span>Projects</span></h2>
 
+      <!-- Portfolio Filters -->
+      <div class="portfolio-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="web">Web Development</button>
+        <button class="filter-btn" data-filter="ai">AI/ML</button>
+        <button class="filter-btn" data-filter="mobile">Mobile Apps</button>
+      </div>
+
       <div class="portfolio-container">
-        <div class="portfolio-box">
+        <div class="portfolio-box" data-category="web">
+          <img src="img/pf6.png" alt="Job Platform" />
+          <div class="portfolio-layer">
+            <h4>Job Platform</h4>
+            <p>A comprehensive job platform built using modern web technologies.</p>
+            <a
+              href="https://planthetrips.onrender.com/"
+              target="_blank"
+              rel="noopener"
+              ><i class="bx bx-link-external"></i
+            ></a>
+          </div>
+        </div>
+
+        <div class="portfolio-box" data-category="web">
+          <img src="img/pf4.png" alt="PlantheTrips" />
+          <div class="portfolio-layer">
+            <h4>PlantheTrips</h4>
+            <p>Its a booking app for travel built using MERN stack.</p>
+            <a
+              href="https://planthetrips.onrender.com/"
+              target="_blank"
+              rel="noopener"
+              ><i class="bx bx-link-external"></i
+            ></a>
+          </div>
+        </div>
+
+        <div class="portfolio-box" data-category="ai">
           <img src="img/pf5.png" alt="Plant Disease Detection" />
           <div class="portfolio-layer">
             <h4>Plant Disease Detection</h4>
@@ -198,8 +238,8 @@
           </div>
         </div>
 
-        <div class="portfolio-box">
-          <img src="img/pf2.png" alt="Plant Disease Detection" />
+        <div class="portfolio-box" data-category="web">
+          <img src="img/pf2.png" alt="Netflix Clone" />
           <div class="portfolio-layer">
             <h4>Netflix Clone</h4>
             <p>
@@ -215,7 +255,7 @@
           </div>
         </div>
 
-        <div class="portfolio-box">
+        <div class="portfolio-box" data-category="web">
           <img src="img/pf1.png" alt="Automated Certificate System" />
           <div class="portfolio-layer">
             <h4>Automated Certificate System</h4>
@@ -229,8 +269,8 @@
           </div>
         </div>
 
-        <div class="portfolio-box">
-          <img src="img/pf3.png" alt="Plant Disease Detection" />
+        <div class="portfolio-box" data-category="web">
+          <img src="img/pf3.png" alt="Weather App" />
           <div class="portfolio-layer">
             <h4>Weather App</h4>
             <p>
@@ -246,7 +286,7 @@
           </div>
         </div>
 
-        <div class="portfolio-box">
+        <div class="portfolio-box" data-category="ai">
           <img src="img/pf1.jpg" alt="AI Workspace" />
           <div class="portfolio-layer">
             <h4>AI Workspace</h4>
@@ -261,21 +301,21 @@
     <section class="contact" id="contact">
       <h2 class="heading">Contact <span>Me!</span></h2>
 
-      <form action="#">
+      <form action="https://formspree.io/f/xzzgvkrr" method="POST">
         <div class="input-box">
-          <input type="text" placeholder="Full Name" />
-          <input type="email" placeholder="Email Address" />
+          <input type="text" name="name" placeholder="Full Name" required />
+          <input type="email" name="email" placeholder="Email Address" required />
         </div>
         <div class="input-box">
-          <input type="number" placeholder="Mobile Number" />
-          <input type="text" placeholder="Email Subject" />
+          <input type="number" name="mobile" placeholder="Mobile Number" />
+          <input type="text" name="subject" placeholder="Email Subject" />
         </div>
         <textarea
-          name=""
-          id=""
+          name="message"
           cols="30"
           rows="10"
           placeholder="Your Message"
+          required
         ></textarea>
         <input type="submit" value="Send Message" class="btn" />
       </form>
