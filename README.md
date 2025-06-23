@@ -1,5 +1,7 @@
 # My Portfolio Site
 
+![Portfolio Screenshot](img/@myportfoliosite.png)
+
 This is a personal portfolio website to showcase my projects, skills, and experience. The site is built using HTML, CSS, and JavaScript, and is designed to be simple, responsive, and visually appealing.
 
 ## Features
